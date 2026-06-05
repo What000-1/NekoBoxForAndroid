@@ -1,10 +1,12 @@
 # NekoBox for Android (Modified Version)
 
 > **致敬 / Tribute**
-> 本项目是基于原版 [NekoBox for Android](https://github.com/MatsuriDayo/NekoBoxForAndroid) (作者 MatsuriDayo) 的三次修改版。感谢原作者对开源社区的巨大贡献！
-> 本项目是基于二改版 [NekoBox for Android](https://github.com/starifly/NekoBoxForAndroid) (作者 starifly) 的二次修改版
-> This project is a modified version based on the original [NekoBox for Android](https://github.com/MatsuriDayo/NekoBoxForAndroid) created by MatsuriDayo.
-> This project is a modified version based on the original [NekoBox for Android](https://github.com/starifly/NekoBoxForAndroid) created by starifly.
+
+> 本项目是基于原版 [NekoBox for Android](https://github.com/MatsuriDayo/NekoBoxForAndroid) (作者 MatsuriDayo) 的三次修改版。感谢原作者对开源社区的巨大贡献！  
+>  This project is a modified version based on the original [NekoBox for Android](https://github.com/MatsuriDayo/NekoBoxForAndroid) created by MatsuriDayo.  
+
+> 本项目是基于二改版 [NekoBox for Android](https://github.com/starifly/NekoBoxForAndroid) (作者 starifly) 的二次修改版  
+This project is a modified version based on the original [NekoBox for Android](https://github.com/starifly/NekoBoxForAndroid) created by starifly.
 
 ## 本次修改版的主要特性 / Key Improvements in this Version
 
