@@ -1,256 +1,34 @@
-# NekoBox for Android
+# NekoBox for Android (Modified Version)
 
-[![API](https://img.shields.io/badge/API-21%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=21)
-[![Releases](https://img.shields.io/github/v/release/MatsuriDayo/NekoBoxForAndroid)](https://github.com/MatsuriDayo/NekoBoxForAndroid/releases)
-[![License: GPL-3.0](https://img.shields.io/badge/license-GPL--3.0-orange.svg)](https://www.gnu.org/licenses/gpl-3.0)
+> **致敬 / Tribute**
+> 本项目是基于原版 [NekoBox for Android](https://github.com/MatsuriDayo/NekoBoxForAndroid) (作者 MatsuriDayo) 的二次修改版。感谢原作者对开源社区的巨大贡献！
+> This project is a modified version based on the original [NekoBox for Android](https://github.com/MatsuriDayo/NekoBoxForAndroid) created by MatsuriDayo. Huge thanks to the original author for their tremendous contributions to the open-source community!
 
-## 免责声明
+## 本次修改版的主要特性 / Key Improvements in this Version
+
+1. **界面全面美化 (Material 3 UI Beautification)**
+   - 对节点列表卡片等 UI 细节进行了全面重写与升级。引入了 Material 3 现代风格的 16dp 大圆角与柔和阴影，让应用整体视觉感受更加年轻、现代。
+2. **中转链路与 GeoIP 深度检测 (Transit Node & GeoIP Detection)**
+   - 深度改造了底层的 `libcore` (Go) 以及安卓服务端的测试逻辑。现在在测试节点时，可以智能探测“入站 IP”与“实际出口 IP”，并结合内置的 `ipinfo.io` 获取真实物理位置。
+   - 无论是进行“批量延迟测试”还是“单节点连接测试”，都能直接在界面上为您呈现透明的 IP 链路，例如：`路由: 日本(入站) → 中转 → 美国(出口)`。
+
+## 免责声明 / Disclaimer
 
 > 免责声明：本项目仅用于技术研究与代码学习之目的，不提供任何形式的网络代理服务。请勿将本项目用于违反当地法律法规的任何活动。请勿在生产环境中使用本项目，使用者应自行承担使用本项目可能带来的全部风险。若您下载或引用本项目，请在 24 小时内自行删除相关内容，并避免长期存储、分享或传播本项目的任何部分。**作者保留随时修改、更新或移除本项目及其内容的权利，恕不另行通知。**
 > 
 > Disclaimer: This project is intended solely for technical research and code learning purposes and does not provide any form of network proxy service. Please do not use this project for any activities that violate local laws and regulations. Do not use this project in production environments. Users are fully responsible for any risks that may arise from using this project. If you download or reference this project, please delete all related content within 24 hours and avoid long-term storage, distribution, or dissemination of any part of this project. **The author reserves the right to modify, update, or remove any part of this project or its contents at any time without prior notice.**
 
-## 下载 / Downloads
-
-[![GitHub All Releases](https://img.shields.io/github/downloads/Matsuridayo/NekoBoxForAndroid/total?label=downloads-total&logo=github&style=flat-square)](https://github.com/starifly/NekoBoxForAndroid/releases)
-
-[GitHub Releases 下载](https://github.com/starifly/NekoBoxForAndroid/releases)
+## 重要提醒 / Important Notice
 
 **Google Play 版本自 2024 年 5 月起已被第三方控制，为非开源版本，请不要下载。**
 
-**The Google Play version has been controlled by a third party since May 2024 and is a non-open
-source version. Please do not download it.**
+**The Google Play version has been controlled by a third party since May 2024 and is a non-open source version. Please do not download it.**
 
-## 更新日志 & Telegram 发布频道 / Changelog & Telegram Channel
-
-https://t.me/Matsuridayo
-
-## 项目主页 & 文档 / Homepage & Documents
-
-https://matsuridayo.github.io
-
-## 支持的代理协议 / Supported Proxy Protocols
-
-* SOCKS (4/4a/5)
-* HTTP(S)
-* SSH
-* Shadowsocks
-* ShadowsocksR
-* VMess
-* Trojan
-* VLESS
-* AnyTLS/AnyReality
-* Snell 1/2/3/4/5
-* ShadowTLS
-* TUIC
-* Juicity
-* Hysteria 1/2
-* WireGuard
-* Trojan-Go (trojan-go-plugin)
-* NaïveProxy (naive-plugin)
-* Mieru (mieru-plugin)
-
-<details>
-<summary>XHTTP Extra TLS配置示例</summary>
-
-<pre><code class="language-json">
-{
-    "no_grpc_header": false,  // stream-up/one
-	"x_padding_bytes": "100-10000",
-	"sc_max_each_post_bytes": 1000000, // packet-up only
-	"sc_min_posts_interval_ms": 30, // packet-up only
-	"xmux": {
-		"max_concurrency": "16-32",
-		"max_connections": "0-0",
-		"c_max_reuse_times": "0-0",
-		"h_max_request_times": "600-900",
-		"h_max_reusable_secs": "1800-3000",
-		"h_keep_alive_period": 0
-	},
-    "x_padding_obfs_mode": false,
-    "x_padding_key": "",
-    "x_padding_header": "",
-    "x_padding_placement": "",
-    "x_padding_method": "",
-    "uplink_http_method": "",
-    "session_placement": "",
-    "session_key": "",
-    "seq_placement": "",
-    "seq_key": "",
-    "uplink_data_placement": "",
-    "uplink_data_key": "",
-    "uplink_chunk_size": 0,
-	"download": {
-		"mode": "auto",
-		"host": "b.yourdomain.com",
-		"path": "/xhttp",
-        "no_grpc_header": false,  // stream-up/one
-	    "x_padding_bytes": "100-10000",
-	    "sc_max_each_post_bytes": 1000000, // packet-up only
-	    "sc_min_posts_interval_ms": 30, // packet-up only
-		"xmux": {
-			"max_concurrency": "16-32",
-			"max_connections": "0-0",
-			"c_max_reuse_times": "0-0",
-			"h_max_request_times": "600-900",
-			"h_max_reusable_secs": "1800-3000",
-			"h_keep_alive_period": 0
-		},
-        "x_padding_obfs_mode": false,
-        "x_padding_key": "",
-        "x_padding_header": "",
-        "x_padding_placement": "",
-        "x_padding_method": "",
-        "uplink_http_method": "",
-        "session_placement": "",
-        "session_key": "",
-        "seq_placement": "",
-        "seq_key": "",
-        "uplink_data_placement": "",
-        "uplink_data_key": "",
-        "uplink_chunk_size": 0,
-		"server": "$(ip_or_domain_of_your_cdn)",
-		"server_port": 443,
-		"tls": {
-			"enabled": true,
-			"server_name": "b.yourdomain.com",
-			"alpn": "h2",
-			"utls": {
-				"enabled": true,
-				"fingerprint": "chrome"
-			}
-		}
-	}
-}
-</code></pre>
-</details>
-
-<details>
-<summary>XHTTP Extra Reality配置示例</summary>
-
-<pre><code class="language-json">
-{
-    "no_grpc_header": false,  // stream-up/one
-	"x_padding_bytes": "100-10000",
-	"sc_max_each_post_bytes": 1000000, // packet-up only
-	"sc_min_posts_interval_ms": 30, // packet-up only
-	"xmux": {
-		"max_concurrency": "16-32",
-		"max_connections": "0-0",
-		"c_max_reuse_times": "0-0",
-		"h_max_request_times": "600-900",
-		"h_max_reusable_secs": "1800-3000",
-		"h_keep_alive_period": 0
-	},
-    "x_padding_obfs_mode": false,
-    "x_padding_key": "",
-    "x_padding_header": "",
-    "x_padding_placement": "",
-    "x_padding_method": "",
-    "uplink_http_method": "",
-    "session_placement": "",
-    "session_key": "",
-    "seq_placement": "",
-    "seq_key": "",
-    "uplink_data_placement": "",
-    "uplink_data_key": "",
-    "uplink_chunk_size": 0,
-	"download": {
-		"mode": "auto",
-		"host": "example.com",
-		"path": "/xhttp",
-        "no_grpc_header": false,  // stream-up/one
-	    "x_padding_bytes": "100-10000",
-	    "sc_max_each_post_bytes": 1000000, // packet-up only
-	    "sc_min_posts_interval_ms": 30, // packet-up only
-		"xmux": {
-			"max_concurrency": "16-32",
-			"max_connections": "0-0",
-			"c_max_reuse_times": "0-0",
-			"h_max_request_times": "600-900",
-			"h_max_reusable_secs": "1800-3000",
-			"h_keep_alive_period": 0
-		},
-        "x_padding_obfs_mode": false,
-        "x_padding_key": "",
-        "x_padding_header": "",
-        "x_padding_placement": "",
-        "x_padding_method": "",
-        "uplink_http_method": "",
-        "session_placement": "",
-        "session_key": "",
-        "seq_placement": "",
-        "seq_key": "",
-        "uplink_data_placement": "",
-        "uplink_data_key": "",
-        "uplink_chunk_size": 0,
-		"server": "$(ip_or_domain_of_your_cdn)",
-		"server_port": 443,
-		"tls": {
-			"enabled": true,
-			"server_name": "example.com",
-			"reality": {
-				"enabled": true,
-				"public_key": "$(your_publicKey)",
-				"short_id": "$(your_shortId)"
-			},
-			"utls": {
-				"enabled": true,
-				"fingerprint": "chrome"
-			}
-		}
-	}
-}
-</code></pre>
-</details>
-
-请到[这里](https://matsuridayo.github.io/nb4a-plugin/)下载插件以获得完整的代理支持.
-
-Please visit [here](https://matsuridayo.github.io/nb4a-plugin/) to download plugins for full proxy
-supports.
-
-## 支持的订阅格式 / Supported Subscription Format
-
-* 一些广泛使用的格式 (如 Shadowsocks, ClashMeta 和 v2rayN)
-* sing-box 出站
-
-仅支持解析出站，即节点。分流规则等信息会被忽略。
-
-* Some widely used formats (like Shadowsocks, ClashMeta and v2rayN)
-* sing-box outbound
-
-Only resolving outbound, i.e. nodes, is supported. Information such as diversion rules are ignored.
-
-## 捐助 / Donate
-
-<details>
-
-如果这个项目对您有帮助, 可以通过捐赠的方式帮助我们维持这个项目.
-
-捐赠满等额 50 USD 可以在「[捐赠榜](https://mtrdnt.pages.dev/donation_list)」显示头像, 如果您未被添加到这里,
-欢迎联系我们补充.
-
-Donations of 50 USD or more can display your avatar on
-the [Donation List](https://mtrdnt.pages.dev/donation_list). If you are not added here, please
-contact us to add it.
-
-USDT TRC20
-
-`TFVcx36pVLuCWLbWiMdT5KP2PsfQ2SJVEZ`
-
-</details>
-
-## Credits
+## Credits (Original upstream)
 
 Core:
-
 - [SagerNet/sing-box](https://github.com/SagerNet/sing-box)
 
 Android GUI:
-
 - [shadowsocks/shadowsocks-android](https://github.com/shadowsocks/shadowsocks-android)
 - [SagerNet/SagerNet](https://github.com/SagerNet/SagerNet)
-
-Web Dashboard:
-
-- [Yacd-meta](https://github.com/MetaCubeX/Yacd-meta)

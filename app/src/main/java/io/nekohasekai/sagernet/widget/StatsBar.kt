@@ -129,6 +129,12 @@ class StatsBar @JvmOverloads constructor(
         runOnDefaultDispatcher {
             try {
                 val elapsed = activity.urlTest()
+                val profile = io.nekohasekai.sagernet.database.ProfileManager.getProfile(DataStore.selectedProxy)
+                var ipResult = ""
+                if (profile != null) {
+                    val ipTest = io.nekohasekai.sagernet.bg.proto.IpTest()
+                    ipResult = ipTest.doTest(profile)
+                }
                 onMainDispatcher {
                     isEnabled = true
                     setStatus(
@@ -140,6 +146,9 @@ class StatsBar @JvmOverloads constructor(
                             }, elapsed
                         )
                     )
+                    if (ipResult.isNotEmpty()) {
+                        activity.snackbar(ipResult).show()
+                    }
                 }
 
             } catch (e: Exception) {

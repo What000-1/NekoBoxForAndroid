@@ -48,6 +48,7 @@ import io.nekohasekai.sagernet.SagerNet
 import io.nekohasekai.sagernet.aidl.TrafficData
 import io.nekohasekai.sagernet.bg.BaseService
 import io.nekohasekai.sagernet.bg.proto.UrlTest
+import io.nekohasekai.sagernet.bg.proto.IpTest
 import io.nekohasekai.sagernet.database.DataStore
 import io.nekohasekai.sagernet.database.GroupManager
 import io.nekohasekai.sagernet.database.ProfileManager
@@ -942,14 +943,17 @@ class ConfigurationFragment @JvmOverloads constructor(
             repeat(DataStore.connectionTestConcurrent) {
                 testJobs.add(launch(Dispatchers.IO) {
                     val urlTest = UrlTest() // note: this is NOT in bg process
+                    val ipTest = IpTest()
                     while (isActive) {
                         val profile = profiles.poll() ?: break
                         profile.status = 0
 
                         try {
                             val result = urlTest.doTest(profile)
+                            val ipResult = ipTest.doTest(profile)
                             profile.status = 1
                             profile.ping = result
+                            profile.error = ipResult
                         } catch (e: PluginManager.PluginNotFoundException) {
                             profile.status = 2
                             profile.error = e.readableMessage
@@ -1794,7 +1798,9 @@ class ConfigurationFragment @JvmOverloads constructor(
                         profileStatus.text = ""
                     }
                 } else if (proxyEntity.status == 1) {
-                    profileStatus.text = getString(R.string.available, proxyEntity.ping)
+                    val pingText = getString(R.string.available, proxyEntity.ping)
+                    val extraText = if (!proxyEntity.error.isNullOrEmpty()) "\n" + proxyEntity.error else ""
+                    profileStatus.text = pingText + extraText
                     profileStatus.setTextColor(requireContext().getColour(R.color.material_green_500))
                 } else {
                     profileStatus.setTextColor(requireContext().getColour(R.color.material_red_500))

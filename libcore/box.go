@@ -7,10 +7,12 @@ import (
 	"io"
 	"libcore/device"
 	"log"
+	"net/http"
 	"runtime"
 	"runtime/debug"
 	"strings"
 	"sync"
+	"time"
 
 	"github.com/matsuridayo/libneko/protect_server"
 	"github.com/matsuridayo/libneko/speedtest"
@@ -232,6 +234,37 @@ func UrlTest(i *BoxInstance, link string, timeout int32) (latency int32, err err
 		connectionTracker = mainInstance.v2api.StatsService()
 	}
 	return speedtest.UrlTest(boxapi.CreateProxyHttpClient(mainInstance.Box, connectionTracker), link, timeout, speedtest.UrlTestStandard_RTT)
+}
+
+func IpTest(i *BoxInstance, timeout int32) (ipInfo string, err error) {
+	defer device.DeferPanicToError("box.IpTest", func(err_ error) { err = err_ })
+	var connectionTracker adapter.ConnectionTracker
+	var httpClient *http.Client
+	if i != nil {
+		if i.v2api != nil {
+			connectionTracker = i.v2api.StatsService()
+		}
+		httpClient = boxapi.CreateProxyHttpClient(i.Box, connectionTracker)
+	} else if mainInstance != nil {
+		if mainInstance.v2api != nil {
+			connectionTracker = mainInstance.v2api.StatsService()
+		}
+		httpClient = boxapi.CreateProxyHttpClient(mainInstance.Box, connectionTracker)
+	} else {
+		httpClient = boxapi.CreateProxyHttpClient(nil, nil)
+	}
+	httpClient.Timeout = time.Duration(timeout) * time.Millisecond
+
+	resp, err := httpClient.Get("http://ipinfo.io/json")
+	if err != nil {
+		return "", err
+	}
+	defer resp.Body.Close()
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return "", err
+	}
+	return string(body), nil
 }
 
 var protectCloser io.Closer

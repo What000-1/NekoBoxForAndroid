@@ -368,7 +368,7 @@ func (h *httpResponse) GetHeader(key string) *StringBox {
 func (h *httpResponse) GetContent() ([]byte, error) {
 	h.getContentOnce.Do(func() {
 		defer h.Body.Close()
-		h.content, h.contentError = io.ReadAll(h.Body)
+		h.content, h.contentError = io.ReadAll(io.LimitReader(h.Body, 1024*1024*50))
 	})
 	return h.content, h.contentError
 }

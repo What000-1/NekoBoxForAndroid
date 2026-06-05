@@ -40,6 +40,30 @@ class TestInstance(profile: ProxyEntity, val link: String, private val timeout: 
         }
     }
 
+    suspend fun doIpTest(): String {
+        return suspendCoroutine { c ->
+            processes = GuardedProcessPool {
+                Logs.w(it)
+                c.tryResumeWithException(it)
+            }
+            runOnDefaultDispatcher {
+                use {
+                    try {
+                        init()
+                        launch()
+                        if (processes.processCount > 0) {
+                            // wait for plugin start
+                            delay(500)
+                        }
+                        c.tryResume(Libcore.ipTest(box, timeout))
+                    } catch (e: Exception) {
+                        c.tryResumeWithException(e)
+                    }
+                }
+            }
+        }
+    }
+
     override fun buildConfig() {
         config = buildConfig(profile, true)
     }
