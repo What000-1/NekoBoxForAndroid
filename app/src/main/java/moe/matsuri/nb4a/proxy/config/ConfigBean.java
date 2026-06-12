@@ -16,20 +16,26 @@ public class ConfigBean extends InternalBean {
 
     public Integer type; // 0=config 1=outbound
     public String config;
+    public Integer coreType; // 0=sing-box, 1=mihomo, 2=xray
+    public Integer localPort;
 
     @Override
     public void initializeDefaultValues() {
         super.initializeDefaultValues();
         if (type == null) type = 0;
         if (config == null) config = "";
+        if (coreType == null) coreType = 0;
+        if (localPort == null) localPort = 7890;
     }
 
     @Override
     public void serialize(ByteBufferOutput output) {
-        output.writeInt(0);
+        output.writeInt(1);
         super.serialize(output);
         output.writeInt(type);
         output.writeString(config);
+        output.writeInt(coreType);
+        output.writeInt(localPort);
     }
 
     @Override
@@ -38,6 +44,13 @@ public class ConfigBean extends InternalBean {
         super.deserialize(input);
         type = input.readInt();
         config = input.readString();
+        if (version >= 1) {
+            coreType = input.readInt();
+            localPort = input.readInt();
+        } else {
+            coreType = 0;
+            localPort = 7890;
+        }
     }
 
     @Override
@@ -59,7 +72,12 @@ public class ConfigBean extends InternalBean {
             } catch (Exception ignored) {
             }
         }
-        return type != null && type == 0 ? "sing-box config" : "sing-box outbound";
+        if (type != null && type == 0) {
+            if (coreType != null && coreType == 1) return "mihomo config";
+            if (coreType != null && coreType == 2) return "xray config";
+            return "sing-box config";
+        }
+        return "sing-box outbound";
     }
 
     @NotNull

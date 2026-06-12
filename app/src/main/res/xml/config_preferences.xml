@@ -11,6 +11,22 @@
         app:key="isOutboundOnly"
         app:title="@string/is_outbound_only" />
 
+    <moe.matsuri.nb4a.ui.SimpleMenuPreference
+        app:defaultValue="0"
+        app:entries="@array/core_type_entries"
+        app:entryValues="@array/core_type_values"
+        app:icon="@drawable/ic_baseline_flip_camera_android_24"
+        app:key="coreType"
+        app:title="@string/core_type"
+        app:useSimpleSummaryProvider="true" />
+
+    <EditTextPreference
+        app:defaultValue="7890"
+        app:key="localPort"
+        app:title="@string/local_port"
+        app:summary="@string/local_port_summary"
+        app:useSimpleSummaryProvider="true" />
+
     <moe.matsuri.nb4a.ui.EditConfigPreference
         app:icon="@drawable/ic_baseline_layers_24"
         app:key="serverConfig"

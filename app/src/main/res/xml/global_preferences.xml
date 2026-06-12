@@ -303,5 +303,21 @@
             app:key="clearCache"
             app:title="@string/clear_cache"
             app:summary="@string/clear_cache_summary" />
+        <PreferenceCategory app:title="@string/external_core_settings">
+            <EditTextPreference
+                app:defaultValue="MetaCubeX/mihomo"
+                app:key="mihomoRepo"
+                app:title="@string/external_core_repo_mihomo"
+                app:useSimpleSummaryProvider="true" />
+            <EditTextPreference
+                app:defaultValue="XTLS/Xray-core"
+                app:key="xrayRepo"
+                app:title="@string/external_core_repo_xray"
+                app:useSimpleSummaryProvider="true" />
+            <Preference
+                app:key="updateExternalCores"
+                app:title="@string/update_external_cores"
+                app:summary="@string/update_external_cores_summary" />
+        </PreferenceCategory>
     </PreferenceCategory>
 </PreferenceScreen>

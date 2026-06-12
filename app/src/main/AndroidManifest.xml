@@ -249,6 +249,14 @@
             android:taskAffinity=""
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
+            android:name="moe.matsuri.nb4a.ui.AppManagerActivity"
+            android:exported="false"
+            android:label="@string/proxied_apps" />
+        <activity
+            android:name="moe.matsuri.nb4a.ui.ExternalCoreUpdateActivity"
+            android:exported="false"
+            android:label="@string/update_external_cores" />
+        <activity
             android:name="io.nekohasekai.sagernet.ui.AppManagerActivity"
             android:configChanges="uiMode"
             android:excludeFromRecents="true"

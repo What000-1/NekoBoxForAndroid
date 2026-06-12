@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="core_type_entries">
+        <item>sing-box</item>
+        <item>mihomo</item>
+        <item>xray</item>
+    </string-array>
+    <string-array name="core_type_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    <string name="core_type">Core</string>
+    <string name="local_port">Local Port (SOCKS)</string>
+    <string name="local_port_summary">Port the external core will listen on for incoming traffic from sing-box TUN</string>
+    <string name="external_core_repo_mihomo">mihomo GitHub Repo</string>
+    <string name="external_core_repo_xray">xray GitHub Repo</string>
+    <string name="external_core_settings">External Core Settings</string>
+    <string name="update_external_cores">Update External Cores</string>
+    <string name="update_external_cores_summary">Download or update external cores (mihomo, xray) from GitHub</string>
+</resources>

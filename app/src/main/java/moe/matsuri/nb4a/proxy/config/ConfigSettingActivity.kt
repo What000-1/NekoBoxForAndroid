@@ -21,6 +21,8 @@ class ConfigSettingActivity :
     override fun ConfigBean.init() {
         // CustomBean to input
         DataStore.profileCacheStore.putBoolean(isOutboundOnlyKey, type == 1)
+        DataStore.profileCacheStore.putString("coreType", coreType?.toString() ?: "0")
+        DataStore.profileCacheStore.putString("localPort", localPort?.toString() ?: "7890")
         DataStore.profileName = name
         DataStore.serverConfig = config
     }
@@ -28,6 +30,8 @@ class ConfigSettingActivity :
     override fun ConfigBean.serialize() {
         // CustomBean from input
         type = if (DataStore.profileCacheStore.getBoolean(isOutboundOnlyKey, false)) 1 else 0
+        coreType = DataStore.profileCacheStore.getString("coreType", "0")?.toIntOrNull() ?: 0
+        localPort = DataStore.profileCacheStore.getString("localPort", "7890")?.toIntOrNull() ?: 7890
         name = DataStore.profileName
         config = DataStore.serverConfig
     }

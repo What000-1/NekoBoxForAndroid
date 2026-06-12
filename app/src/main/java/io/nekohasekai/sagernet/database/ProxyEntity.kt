@@ -335,6 +335,7 @@ data class ProxyEntity(
             TYPE_NAIVE -> true
             TYPE_HYSTERIA -> !hysteriaBean!!.canUseSingBox()
             TYPE_NEKO -> true
+            TYPE_CONFIG -> configBean?.coreType == 1 || configBean?.coreType == 2
             else -> false
         }
     }

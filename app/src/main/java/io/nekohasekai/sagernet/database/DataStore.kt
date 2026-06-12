@@ -131,6 +131,9 @@ object DataStore : OnPreferenceDataStoreChangeListener {
     var rulesGeoipUrl by configurationStore.string(Key.RULES_GEOIP_URL) { "https://github.com/SagerNet/sing-geosite/releases/latest/download/geosite.db" }
     var rulesUpdateInterval by configurationStore.string(Key.RULES_UPDATE_INTERVAL) { "0" } // 默认为0，不自动更新
 
+    var mihomoRepo by configurationStore.string("mihomoRepo") { "MetaCubeX/mihomo" }
+    var xrayRepo by configurationStore.string("xrayRepo") { "XTLS/Xray-core" }
+
     // hopefully hashCode = mHandle doesn't change, currently this is true from KitKat to Nougat
     private val userIndex by lazy { Binder.getCallingUserHandle().hashCode() }
     var mixedPort: Int

@@ -72,7 +72,7 @@ fun buildConfig(
 
     if (proxy.type == TYPE_CONFIG) {
         val bean = proxy.requireBean() as ConfigBean
-        if (bean.type == 0) {
+        if (bean.type == 0 && bean.coreType != 1 && bean.coreType != 2) {
             val tagProxy = proxy.displayName()
             return ConfigBuildResult(
                 bean.config,
@@ -347,7 +347,11 @@ fun buildConfig(
                 }
 
                 if (proxyEntity.needExternal()) { // externel outbound
-                    val localPort = mkPort()
+                    val localPort = if (bean is ConfigBean && (bean.coreType == 1 || bean.coreType == 2)) {
+                        bean.localPort ?: 7890
+                    } else {
+                        mkPort()
+                    }
                     externalChainMap[localPort] = proxyEntity
                     currentOutbound = Outbound_SocksOptions().apply {
                         type = "socks"

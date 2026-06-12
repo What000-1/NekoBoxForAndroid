@@ -214,7 +214,6 @@ class SettingsPreferenceFragment : PreferenceFragmentCompat() {
             true
         }
 
-        // 清理缓存功能
         val clearCache = findPreference<Preference>(Key.CLEAR_CACHE)!!
         clearCache.setOnPreferenceClickListener {
             MaterialAlertDialogBuilder(requireContext()).apply {
@@ -225,6 +224,12 @@ class SettingsPreferenceFragment : PreferenceFragmentCompat() {
                 }
                 setNegativeButton(android.R.string.cancel, null)
             }.show()
+            true
+        }
+
+        val updateExternalCores = findPreference<Preference>("updateExternalCores")!!
+        updateExternalCores.setOnPreferenceClickListener {
+            startActivity(Intent(activity, moe.matsuri.nb4a.ui.ExternalCoreUpdateActivity::class.java))
             true
         }
     }

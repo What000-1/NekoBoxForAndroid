@@ -195,6 +195,44 @@ abstract class BoxInstance(
 
                         processes.start(commands)
                     }
+
+                    bean is moe.matsuri.nb4a.proxy.config.ConfigBean -> {
+                        val isMihomo = bean.coreType == 1
+                        val coreName = if (isMihomo) "mihomo" else "xray"
+                        val ext = if (isMihomo) "yaml" else "json"
+                        
+                        val configFile = File(
+                            cacheDir, "${coreName}_" + SystemClock.elapsedRealtime() + ".$ext"
+                        )
+                        configFile.parentFile?.mkdirs()
+                        configFile.writeText(bean.config)
+                        cacheFiles.add(configFile)
+
+                        val corePath = File(SagerNet.application.filesDir, coreName).absolutePath
+                        val commands = if (isMihomo) {
+                            mutableListOf(corePath, "-d", SagerNet.application.filesDir.absolutePath, "-f", configFile.absolutePath)
+                        } else {
+                            mutableListOf(corePath, "-c", configFile.absolutePath)
+                        }
+
+                        processes.start(commands)
+
+                        // Wait for port to become available
+                        runBlocking {
+                            var attempts = 0
+                            while (attempts < 50) { // 5 seconds
+                                try {
+                                    java.net.Socket("127.0.0.1", bean.localPort).use {
+                                        // Port is open!
+                                    }
+                                    break
+                                } catch (e: Exception) {
+                                    delay(100)
+                                    attempts++
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
