@@ -255,7 +255,15 @@ func IpTest(i *BoxInstance, timeout int32) (ipInfo string, err error) {
 	}
 	httpClient.Timeout = time.Duration(timeout) * time.Millisecond
 
-	resp, err := httpClient.Get("http://ipinfo.io/json")
+	// Use HTTPS to avoid plain HTTP being blocked/intercepted by proxies or networks
+	req, err := http.NewRequest("GET", "https://ipinfo.io/json", nil)
+	if err != nil {
+		return "", err
+	}
+	req.Header.Set("Accept", "application/json")
+	req.Header.Set("User-Agent", "curl/7.74.0")
+
+	resp, err := httpClient.Do(req)
 	if err != nil {
 		return "", err
 	}

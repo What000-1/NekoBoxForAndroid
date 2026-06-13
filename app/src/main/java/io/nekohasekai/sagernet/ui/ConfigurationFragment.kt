@@ -950,10 +950,15 @@ class ConfigurationFragment @JvmOverloads constructor(
 
                         try {
                             val result = urlTest.doTest(profile)
-                            val ipResult = ipTest.doTest(profile)
                             profile.status = 1
                             profile.ping = result
-                            profile.error = ipResult
+                            // IP test is optional - don't let it fail the whole test
+                            try {
+                                val ipResult = ipTest.doTest(profile)
+                                profile.error = ipResult
+                            } catch (e: Exception) {
+                                profile.error = "IP: ${e.message ?: "unknown error"}"
+                            }
                         } catch (e: PluginManager.PluginNotFoundException) {
                             profile.status = 2
                             profile.error = e.readableMessage

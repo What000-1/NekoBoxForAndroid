@@ -132,8 +132,12 @@ class StatsBar @JvmOverloads constructor(
                 val profile = io.nekohasekai.sagernet.database.ProfileManager.getProfile(DataStore.selectedProxy)
                 var ipResult = ""
                 if (profile != null) {
-                    val ipTest = io.nekohasekai.sagernet.bg.proto.IpTest()
-                    ipResult = ipTest.doTest(profile)
+                    try {
+                        val ipTest = io.nekohasekai.sagernet.bg.proto.IpTest()
+                        ipResult = ipTest.doTest(profile)
+                    } catch (e: Exception) {
+                        ipResult = "IP: ${e.message ?: "unknown error"}"
+                    }
                 }
                 onMainDispatcher {
                     isEnabled = true
